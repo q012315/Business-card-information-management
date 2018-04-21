@@ -1,0 +1,120 @@
+#Author:Qiao_Jin
+
+#Email:342187916@qq.com
+#存储用户输入的信息列表，每张名片用字典形式存储
+information = []
+def print_menu():
+    #打印功能提示
+    print("="*25)
+    print("名片管理系功能简介")
+    print("1.新建名字")
+    print("2.删除名字")
+    print("3.修改名字")
+    print("4.查询名字")
+    print("5.打印名单")
+    print("6.保存名单")
+    print("7.退出")
+    print("="*25)
+def add_info():
+    '''添加新信息'''
+    add_name=input("请输入姓名：")
+    add_qq=input("请输入qq：")
+    add_微信=input("请输入微信：")
+    add_addr=input("请输入addr：")
+    info = {}
+    info["name"] = add_name
+    info["qq"] = add_qq
+    info["微信"] = add_微信
+    info["addr"] = add_addr
+    information.append(info)
+    # print(information)
+def del_info():
+    '''删除名单信息'''
+    del_name = input("请输入要删除的名字：")
+    for  i in information:
+        # print(k,v)
+        if i["name"]==del_name:
+            information.remove(i)
+    # print(information)
+    else:
+        print("请正确输入要删除的名单！")
+
+def re_info():
+    '''修改名单信息'''
+    re_name = input("请输入要修改的名字：")
+
+    for i in information:
+        if i["name"]==re_name:
+            k = information.index(i)
+            information[k]["name"]=input("要修改的名字")
+            information[k]["qq"]=input("要修改的qq")
+            information[k]["微信"]=input("要修改的微信")
+            information[k]["addr"]=input("要修改的addr")
+            print('修改成功')
+            break
+        else:
+            print("查不到需要修改的名字")
+def find_info():
+    '''查询名单信息'''
+    find_name = input("请输入需要查找的名字：")
+    find_flag = 0
+    for i in information:
+        if i["name"] == find_name:
+            find_flag = 1
+            print("name:%s,qq:%s,微信:%s,addr:%s"%(i['name'],i['qq'],i['微信'],i['addr']))
+            break
+    if find_flag == 0:
+        print("查无此人")
+    # for i in information:
+    #     if i["name"] == find_name:
+    #         print("name:%s,qq:%s,微信:%s,addr:%s"%(i['name'],i['qq'],i['微信'],i['addr']))
+    #         break
+    #     else:
+    #         print("查无此人")
+def print_info():
+    '''打印名单信息'''
+    # print(information[0].keys())
+    print("姓名\t微信\tqq\t地址")
+    for i in information:
+        # print("姓名\t微信\tqq\t地址")
+        print("%s\t%s\t%s\t%s" %(i["name"],i["微信"],i["qq"],i["addr"]))
+        # print(i.values())
+
+    # print(information.[0].values())
+def save_info():
+    '''保存已经输入的名片信息到文件中'''
+    with open('info.bak','w') as f:
+       f.write(str(information))
+       print('名片信息保存成功')
+def load_info():
+    '''加载已经保存的名片信息'''
+    try:
+        with open("info.bak",'r') as f:
+            global information
+            information = eval(f.read())
+    except Exception:
+        pass
+def main():
+    '''主函数获取用户需要功能'''
+    print_menu()
+    load_info()
+    while True:
+        fun_num = int(input("请输入要执行的命令代码："))
+        if fun_num==1:
+            add_info()
+        elif fun_num==2:
+            del_info()
+        elif fun_num == 3:
+            re_info()
+        elif fun_num == 4:
+            find_info()
+        elif fun_num == 5:
+            print_info()
+        elif fun_num == 6:
+            save_info()
+        elif fun_num == 7:
+            exit()
+        else:
+            print('请重新输入正确选项')
+if __name__ == "__main__":
+    main()
